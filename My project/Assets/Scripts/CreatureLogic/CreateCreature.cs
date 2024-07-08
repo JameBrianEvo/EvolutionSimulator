@@ -95,21 +95,28 @@ public class CreateCreature : MonoBehaviour
 
     private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
         
-        FindFood find_food = new();
-        InitAction(find_food, creature_rb, data, scanner);
+        FindFood findFood = new();
+        InitAction(findFood, creature_rb, data, scanner);
 
         Wander wander = new();
         InitAction(wander, creature_rb, data, scanner);
 
-        ActionNode find_food_node = new(find_food);
-        ActionNode wander_node = new(wander);
-        find_food_node.AddAction(wander_node);
-        wander_node.AddAction(find_food_node);
-        wander_node.AddAction(wander_node);
+        EatFood eatFood = new();
+        InitAction(eatFood, creature_rb, data, scanner);
+
+        ActionNode findFoodNode = new(findFood);
+        ActionNode wanderNode = new(wander);
+        ActionNode eatFoodNode = new(eatFood);
+
+        findFoodNode.AddAction(eatFoodNode);
+        findFoodNode.AddAction(wanderNode);
+        wanderNode.AddAction(findFoodNode);
+        wanderNode.AddAction(wanderNode);
+        eatFoodNode.AddAction(wanderNode);
         List<ActionNode> action_list = new();
-        action_list.Add(wander_node);
-        action_list.Add(find_food_node);
-        ActionGraph actions = new(wander_node, action_list);
+        action_list.Add(wanderNode);
+        action_list.Add(findFoodNode);
+        ActionGraph actions = new(wanderNode, action_list);
 
         return actions;
     }

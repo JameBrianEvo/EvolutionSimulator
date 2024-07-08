@@ -21,7 +21,7 @@ public class Wander : IAction
 
     public bool EndCondition()
     {
-        Debug.Log(forceQuit);
+        //Debug.Log(forceQuit);
         if (forceQuit == true)
         {
             return true;

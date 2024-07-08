@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class FindFood : IAction
 {
+    //action variables
     public Rigidbody2D rb;
     public CreatureData data;
     private RangeScanner scanner;
@@ -36,7 +37,6 @@ public class FindFood : IAction
 
     public bool StartCondition()
     {
-       
         if (data.IsFull())
         {
             return false;
@@ -48,7 +48,7 @@ public class FindFood : IAction
 
     public void OnEnter()
     {
-        data.SetNewTargetLocation(grid.WorldToCell(food.GetPosition()));
+        rb.velocity = new Vector2(food.GetPosition().x - rb.position.x, food.GetPosition().y - rb.position.y).normalized * data.Speed;
         forceQuit = false;
     }
 
@@ -65,6 +65,10 @@ public class FindFood : IAction
     //if arrived at food, then return true
     //otherwise return false
     public bool EndCondition(){
+        if(food == null)
+        {
+            return true;
+        }
         if (forceQuit)
         {
             return true;
@@ -78,8 +82,9 @@ public class FindFood : IAction
         return false;
     }
 
+    //set velocity to 0
     public void OnExit(){
-        //do nothing
+        rb.velocity *= 0;
     }
 
     override
