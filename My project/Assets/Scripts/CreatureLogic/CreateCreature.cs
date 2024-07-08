@@ -41,7 +41,7 @@ public class CreateCreature : MonoBehaviour
         GameObject creature = Instantiate(creature_prefab, random_position, Quaternion.identity);
         creature.transform.parent = creature_holder.transform;
 
-        CreatureData data = new(id, 100, Random.Range(30,40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
+        CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE * 5f, UnitUtilities.TILE * 10f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
         baseCreature.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
         
@@ -83,9 +83,10 @@ public class CreateCreature : MonoBehaviour
         max = parent1.Sight_range > parent2.Sight_range ? parent1.Sight_range : parent2.Sight_range;
         int sight_range = Random.Range(min -1, max +1);
 
-        min = parent1.Speed < parent2.Speed ? parent1.Speed : parent2.Speed;
-        max = parent1.Speed  > parent2.Speed ? parent1.Speed : parent2.Speed;
-        int speed = Random.Range(min -1, max +1);
+        float fmin, fmax;
+        fmin = parent1.Speed < parent2.Speed ? parent1.Speed : parent2.Speed;
+        fmax = parent1.Speed  > parent2.Speed ? parent1.Speed : parent2.Speed;
+        float speed = Random.Range(min -1, max +1);
 
         Color color = Color.Lerp(parent1.Color, parent2.Color, 1);
         data = new(id, energy, speed, sight_range, color, creature_rb.transform);

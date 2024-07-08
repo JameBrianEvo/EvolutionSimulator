@@ -12,11 +12,7 @@ public class FindFood : IAction
     private RangeScanner scanner;
     private Grid grid;
     private FoodScript food;
-    public bool running = false;
-
-    public bool IsRunning(){
-        return running;
-    }
+    private bool forceQuit;
 
     public FindFood()
     {
@@ -40,6 +36,7 @@ public class FindFood : IAction
 
     public bool StartCondition()
     {
+       
         if (data.IsFull())
         {
             return false;
@@ -51,24 +48,30 @@ public class FindFood : IAction
 
     public void OnEnter()
     {
-        Debug.Log("Init");
-        Debug.Log("Food Position: " + grid.WorldToCell(food.GetPosition()));
-        Debug.Log("Creature Position" + grid.WorldToCell(data.transform.position));
         data.SetNewTargetLocation(grid.WorldToCell(food.GetPosition()));
-        running = true;
+        forceQuit = false;
     }
 
+    //when running, check for obstacles, if true then "force quit" the action
     public void Run()
     {
-        if(Vector2.Distance(food.GetPosition(), rb.position) <= 0.16f){
-            data.IncreaseEnergy(food.EatFood());
-            running = false;
-            //data.SetRandomPath();
+        if (ActionUtils.IsObstacleDetected(rb))
+        {
+            forceQuit = true;
         }
     }
 
+    //if force quit then return true
+    //if arrived at food, then return true
+    //otherwise return false
     public bool EndCondition(){
-        if(food == null){
+        if (forceQuit)
+        {
+            return true;
+        }
+        
+        if(Vector3.Distance(food.GetPosition(),rb.position) < UnitUtilities.TILE / 2)
+        {
             return true;
         }
 

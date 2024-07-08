@@ -15,7 +15,7 @@ public class ActionDebugger : MonoBehaviour
     void Start()
     {
         //Creating Randomized Data
-        data = new(1001, 100, Random.Range(30, 40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
+        data = new(1001, 100, Random.Range(UnitUtilities.TILE * 5, UnitUtilities.TILE * 10), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
 
         //Setting the action tree
         CreateActions();
@@ -24,11 +24,16 @@ public class ActionDebugger : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
+    {
+        DoAction();
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            DoAction();
+            current_action_node.action.PrintStatus();
         }
     }
 
@@ -43,7 +48,7 @@ public class ActionDebugger : MonoBehaviour
             Debug.Log("Next Action Started: " + current_action_node.action.ToString());
         }
 
-        current_action_node.action.PrintStatus();
+        
         current_action_node.action.Run();
     }
     private void CreateActions()

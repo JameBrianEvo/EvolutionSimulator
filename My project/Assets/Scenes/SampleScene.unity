@@ -36821,7 +36821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5429587594d0a04bbee9f00c0ff4801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingFoodAmount: 200
+  StartingFoodAmount: 1
   food_spawn_rate: 1
   food_map: {fileID: 503291662}
   world_map: {fileID: 1104449226}
