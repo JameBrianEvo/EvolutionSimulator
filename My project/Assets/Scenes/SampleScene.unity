@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 456813782}
   - component: {fileID: 456813781}
   - component: {fileID: 456813780}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BorderMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
