@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class CreatureData
 {
-    public Stack<Vector3Int> path { get; private set; }
     public Vector3 TargetLocation{get; set;}
     public Transform transform { get; }
     [SerializeField]
