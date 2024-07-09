@@ -18,14 +18,14 @@ public class CreatureData
     [SerializeField]
     public int SightRange {get;}
     [SerializeField]
-    public int Speed { get; private set;}
+    public float Speed { get; private set;}
     public BaseCreature Target {get; set;}
     public float TimeBorn {get; private set;}
     public Color Color { get; private set;}
 
     private Grid grid;
 
-    public CreatureData(int ID, int energy, int speed, int sight_range, Color color, Transform transform)
+    public CreatureData(int ID, int energy, float speed, int sight_range, Color color, Transform transform)
     {
         this.ID = ID;
         this.Energy = energy;
@@ -70,11 +70,9 @@ public class CreatureData
         Vector3Int og_position = grid.WorldToCell(transform.position);
         Vector3Int position = grid.WorldToCell(transform.position);
 
-        do
-        {
-            position.x = og_position.x + negativex * UnityEngine.Random.Range(5, 10);
-            position.y = og_position.y + negativey * UnityEngine.Random.Range(5, 10);
-        } while (GameManager.Instance.OutOfBounds(position) || !GameManager.Instance.IsNotRock(position));
+        position.x = og_position.x + negativex * UnityEngine.Random.Range(5, 10);
+        position.y = og_position.y + negativey * UnityEngine.Random.Range(5, 10);
+        
 
         SetNewTargetLocation(position);
         return position;

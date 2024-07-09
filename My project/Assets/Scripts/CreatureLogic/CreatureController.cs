@@ -40,7 +40,6 @@ public class BaseCreature : MonoBehaviour
     void FixedUpdate()
     {
         DoAction();
-        ObstacleCheck();
         CheckMetobolism();
         CheckDeath();
     }
@@ -68,42 +67,6 @@ public class BaseCreature : MonoBehaviour
         }
 
         currentActionNode.action.Run();
-    }
-
-    /* Obstacle Check
-     * Purpose -> checks for any obstacles in the current direction the creature is facing
-     * How it works
-     * casts a raycast in the direction the creature is facing with x length
-     * case 1: if the raycast detects an object other than itself
-     *  cancel the current action, and force a new action
-     *  if no actions can be forced, then the root action (likely idle) will be the new action
-     * case 2:
-     *  continue the current action
-     */ 
-    private void ObstacleCheck(){
-
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, rb.velocity, .16f);  
-        Vector3 rayDirection = rb.velocity.normalized * .16f;
-
-        //For Us to see where the ray is being cast
-        Debug.DrawLine(rb.position, transform.position + rayDirection, Color.red);
-
-        foreach (RaycastHit2D hit in hits)
-        {
-
-            if (!hit.collider.gameObject.Equals(gameObject))
-            {
-                Debug.Log("Obstacle Found: " + hit.collider);
-                ActionNode next = currentActionNode.ForceNextAction();
-                //if no action is found, go back to the root
-                if(next == null)
-                {
-                    next = graph.root;
-                }
-                currentActionNode = next;
-                currentActionNode.action.OnEnter();
-            }
-        }
     }
 
     private void CheckDeath()
