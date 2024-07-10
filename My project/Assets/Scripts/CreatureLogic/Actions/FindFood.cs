@@ -37,6 +37,7 @@ public class FindFood : IAction
 
     public bool StartCondition()
     {
+       
         if (data.IsFull())
         {
             return false;
@@ -49,6 +50,7 @@ public class FindFood : IAction
     public void OnEnter()
     {
         rb.velocity = new Vector2(food.GetPosition().x - rb.position.x, food.GetPosition().y - rb.position.y).normalized * data.Speed;
+        data.SetNewTargetLocation(grid.WorldToCell(food.GetPosition()));
         forceQuit = false;
     }
 
