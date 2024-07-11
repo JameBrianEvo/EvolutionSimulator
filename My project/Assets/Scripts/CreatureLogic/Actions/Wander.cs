@@ -9,7 +9,7 @@ public class Wander : IAction
 {
     CreatureData data;
     Rigidbody2D rb;
-    bool wandering = false;
+    bool forceQuit = false;
     Vector3Int wanderTarget;
     Grid grid;
 
@@ -21,7 +21,7 @@ public class Wander : IAction
 
     public bool EndCondition()
     {
-        Debug.Log(forceQuit);
+        //Debug.Log(forceQuit);
         if (forceQuit == true)
         {
             return true;
@@ -40,11 +40,11 @@ public class Wander : IAction
     public void OnEnter()
     {
         wanderTarget = data.SetRandomPath();
-        while(wanderTarget == Vector3Int.zero){
-            wanderTarget = data.SetRandomPath();
-        }
-        Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
-        rb.velocity = new Vector2(wanderTarget.x - grid_position.x, wanderTarget.y - grid_position.y).normalized * data.Speed * .02f;
+        forceQuit = false;
+
+        Vector3Int gridPosition = GameManager.Instance.getGrid().WorldToCell(rb.position);
+        rb.velocity = new Vector2(wanderTarget.x - gridPosition.x, wanderTarget.y - gridPosition.y).normalized * data.Speed;
+        Debug.Log(rb.velocity);
     }
 
     public void OnExit()

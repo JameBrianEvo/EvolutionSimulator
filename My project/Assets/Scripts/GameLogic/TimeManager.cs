@@ -22,6 +22,7 @@ public class TimeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         IsDay = true;
     }
 
@@ -39,6 +40,7 @@ public class TimeManager : MonoBehaviour
             Timer = 0;
             Day++;
             ChangeToDay();
+            WeatherManager.Instance.ChangeWeather();
         }
     }
 

@@ -48,7 +48,6 @@ public class ActionDebugger : MonoBehaviour
             Debug.Log("Next Action Started: " + currentActionNode.action.ToString());
         }
 
-
         currentActionNode.action.PrintStatus();
         currentActionNode.action.Run();
     }
