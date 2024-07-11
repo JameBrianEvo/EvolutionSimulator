@@ -13,16 +13,7 @@ public class EatFood : IAction
 
     public bool EndCondition()
     {
-        if(food == null)
-        {
-            return true;
-        }
-        if (finishedEating)
-        {
-            return true;
-        }
-
-        return false;
+        return food == null || finishedEating;
     }
 
     public void OnExit()

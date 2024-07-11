@@ -16,7 +16,7 @@ public class FindFoodDebugger : MonoBehaviour
     void Start()
     {
         CreatureData data = new(1, 100, Random.Range(30, 40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
-        findFood = new FindFood();
+        findFood = new FindFood(true, true);
         findFood.SetData(data);
         findFood.SetRigidBody(rb);
         findFood.SetScanner(scanner);

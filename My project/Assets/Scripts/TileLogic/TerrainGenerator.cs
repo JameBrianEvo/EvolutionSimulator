@@ -55,7 +55,7 @@ public class TerrainGenerator : MonoBehaviour
             for(int j = miny; j < maxy; j++)
             {
                 perlin = Mathf.PerlinNoise((i + offsetx) / scale,(j + offsety) /scale);
-                Debug.Log (perlin); 
+                //Debug.Log (perlin); 
                 if (perlin <= waterThreshold)
                 {
                     waterMap.SetTile(new Vector3Int(i, j), waterTile);

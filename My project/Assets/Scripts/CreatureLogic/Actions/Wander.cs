@@ -26,7 +26,7 @@ public class Wander : IAction
         {
             return true;
         }
-        if (Vector3.Distance(rb.position, grid.CellToWorld(wander_target)) < UnitUtilities.TILE){
+        if (Vector3.Distance(rb.position, grid.CellToWorld(wanderTarget)) < UnitUtilities.TILE){
             return true;
         }
         return false;
@@ -42,7 +42,7 @@ public class Wander : IAction
         wanderTarget = data.SetRandomPath();
         forceQuit = false;
         Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
-        rb.velocity = new Vector2(wander_target.x - grid_position.x, wander_target.y - grid_position.y).normalized * data.Speed;
+        rb.velocity = new Vector2(wanderTarget.x - grid_position.x, wanderTarget.y - grid_position.y).normalized * data.Speed;
         Debug.Log(rb.velocity);
     }
 

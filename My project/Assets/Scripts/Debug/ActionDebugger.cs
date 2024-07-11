@@ -33,7 +33,7 @@ public class ActionDebugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            current_action_node.action.PrintStatus();
+            currentActionNode.action.PrintStatus();
         }
     }
 
@@ -53,7 +53,7 @@ public class ActionDebugger : MonoBehaviour
     }
     private void CreateActions()
     {
-        FindFood findFood = new();
+        FindFood findFood = new(true, true);
         InitAction(findFood);
 
         Wander wander = new();
