@@ -101,11 +101,19 @@ public class CreateCreature : MonoBehaviour
         Wander wander = new();
         InitAction(wander, creature_rb, data, scanner);
 
+        EatFood eatFood = new();
+        InitAction(eatFood, creature_rb, data, scanner);
+
         ActionNode findFoodNode = new(findFood);
         ActionNode wanderNode = new(wander);
+        ActionNode eatFoodNode = new(eatFood);
+
+        findFoodNode.AddAction(eatFoodNode);
         findFoodNode.AddAction(wanderNode);
         wanderNode.AddAction(findFoodNode);
         wanderNode.AddAction(wanderNode);
+        eatFoodNode.AddAction(wanderNode);
+
         List<ActionNode> action_list = new();
         action_list.Add(wanderNode);
         action_list.Add(findFoodNode);
