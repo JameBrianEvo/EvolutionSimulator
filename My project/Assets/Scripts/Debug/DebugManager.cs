@@ -61,7 +61,6 @@ public class DebugManager : MonoBehaviour
         //speed
 
         string stats = "";
-        stats += "Path: " + _creature.data.path.Count + "\n";
         stats += "ID:\t" +creature.data.ID + "\n";
         stats += "Energy:" +creature.data.CurrentEnergy + " / " + creature.data.Energy + "\n";
         stats += "Age:\t" +creature.GetAge() + "\n";

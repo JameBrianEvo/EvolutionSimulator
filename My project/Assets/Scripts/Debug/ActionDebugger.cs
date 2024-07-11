@@ -33,7 +33,7 @@ public class ActionDebugger : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            current_action_node.action.PrintStatus();
+            currentActionNode.action.PrintStatus();
         }
     }
 
