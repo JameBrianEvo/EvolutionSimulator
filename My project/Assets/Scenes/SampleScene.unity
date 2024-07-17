@@ -766,7 +766,7 @@ MonoBehaviour:
   cam: {fileID: 519420031}
   speed: 2
   following: {fileID: 0}
-  is_follwing: 0
+  isFollowing: 0
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,8 +1055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ea86cc7022a1a43a520a097c84c195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 1009978305}
-  _text: {fileID: 1814108232}
+  canvas: {fileID: 1009978305}
+  text: {fileID: 1814108232}
   camcon: {fileID: 519420033}
 --- !u!1 &1067818209
 GameObject:
@@ -36808,9 +36808,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 1509355984}
-  world_map: {fileID: 1104449226}
-  time_scale: 1
-  terrain_map: {fileID: 890441168}
+  worldMap: {fileID: 1104449226}
+  timeScale: 1
+  terrainMap: {fileID: 890441168}
 --- !u!114 &1424265769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36823,11 +36823,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5429587594d0a04bbee9f00c0ff4801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingFoodAmount: 1
-  food_spawn_rate: 1
-  food_map: {fileID: 503291662}
-  world_map: {fileID: 1104449226}
-  food_holder: {fileID: 208674763}
+  StartingFoodAmount: 10
+  foodSpawnRate: 1
+  foodMap: {fileID: 503291662}
+  worldMap: {fileID: 1104449226}
+  foodHolder: {fileID: 208674763}
   food: {fileID: 6196084175196898504, guid: 9218356c47f70a34d85bb9b2695007a8, type: 3}
 --- !u!114 &1424265770
 MonoBehaviour:
@@ -36841,10 +36841,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98dcd229a5a50694c8c140c502356dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world_map: {fileID: 1104449226}
-  creature_prefab: {fileID: 7492689596350130786, guid: fe1f48aac56d1744081bfc59fce9caaf, type: 3}
-  NumOfStartingCreatures: 0
-  creature_holder: {fileID: 1067818209}
+  worldMap: {fileID: 1104449226}
+  creaturePrefab: {fileID: 7492689596350130786, guid: fe1f48aac56d1744081bfc59fce9caaf, type: 3}
+  numOfStartingCreatures: 1
+  creatureHolder: {fileID: 1067818209}
 --- !u!114 &1424265772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36857,14 +36857,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6260a306838dd964c9d74da0b554fe20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world_map: {fileID: 1104449226}
-  terrain_map: {fileID: 890441168}
-  water_map: {fileID: 361952502}
-  border_map: {fileID: 456813782}
-  water_tile: {fileID: 11400000, guid: 5af10e1ef0d3c484ea84ec7f85a3944e, type: 2}
-  water_threshhold: 0.3
-  rock_tile: {fileID: 11400000, guid: 1cf92805ad041614b8920a6945e0ee16, type: 2}
-  rock_threshhold: 0.05
+  worldMap: {fileID: 1104449226}
+  terrainMap: {fileID: 890441168}
+  waterMap: {fileID: 361952502}
+  borderMap: {fileID: 456813782}
+  waterTile: {fileID: 11400000, guid: 5af10e1ef0d3c484ea84ec7f85a3944e, type: 2}
+  waterThreshold: 0.2
+  rockTile: {fileID: 11400000, guid: 1cf92805ad041614b8920a6945e0ee16, type: 2}
+  rockThreshold: 0.01
   scale: 40
 --- !u!114 &1424265773
 MonoBehaviour:

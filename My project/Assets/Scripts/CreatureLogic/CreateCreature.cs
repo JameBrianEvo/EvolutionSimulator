@@ -95,7 +95,7 @@ public class CreateCreature : MonoBehaviour
 
     private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
         
-        FindFood findFood = new();
+        FindFood findFood = new(false, true);
         InitAction(findFood, creature_rb, data, scanner);
 
         Wander wander = new();

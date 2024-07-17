@@ -26,7 +26,7 @@ public class Wander : IAction
         {
             return true;
         }
-        if (Vector3.Distance(rb.position, grid.CellToWorld(wander_target)) < UnitUtilities.TILE){
+        if (Vector3.Distance(rb.position, grid.CellToWorld(wanderTarget)) < UnitUtilities.TILE){
             return true;
         }
         return false;

@@ -9,6 +9,9 @@ public class FoodScript : MonoBehaviour
     private int energyStored;
 
     [SerializeField]
+    private bool plant;
+
+    [SerializeField]
     private HashSet<BaseCreature> creaturesInRange;
     public int EatFood()
     {
@@ -35,5 +38,10 @@ public class FoodScript : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public bool IsPlant()
+    {
+        return plant;
     }
 }
