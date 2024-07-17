@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class FindFood : IAction
 {
+    //trait variables
+    FindFoodStrategy findFoodStrategy;
+
     //action variables
     public Rigidbody2D rb;
     public CreatureData data;
@@ -15,8 +18,25 @@ public class FindFood : IAction
     private FoodScript food;
     private bool forceQuit;
 
-    public FindFood()
+    //set a food strategy
+    //set grid
+    public FindFood(bool plant, bool meat)
     {
+        if (!plant)
+        {
+            Debug.Log("MEAT EATER");
+            findFoodStrategy = new FindFoodCarnivore();
+        } else if (!meat)
+        {
+            Debug.Log("Plant Eater");
+            findFoodStrategy = new FindFoodHerbivore();
+        }
+        else
+        {
+            Debug.Log("Both Eater");
+            findFoodStrategy = new FindFoodOmnivore();
+        }
+
         grid = GameManager.Instance.getGrid();
     }
 
@@ -35,6 +55,8 @@ public class FindFood : IAction
         scanner = rangeScanner;
     }
 
+    //check if creature is already full
+    //otherwise the specified food strategy
     public bool StartCondition()
     {
        
@@ -42,7 +64,7 @@ public class FindFood : IAction
         {
             return false;
         }
-        food = scanner.GetNearestFood();  
+        food = findFoodStrategy.FindFood(scanner, rb);  
         return food != null;
     }
 
@@ -66,22 +88,12 @@ public class FindFood : IAction
     //if force quit then return true
     //if arrived at food, then return true
     //otherwise return false
-    public bool EndCondition(){
-        if(food == null)
-        {
-            return true;
-        }
-        if (forceQuit)
-        {
-            return true;
-        }
-        
-        if(Vector3.Distance(food.GetPosition(),rb.position) < UnitUtilities.TILE / 2)
-        {
-            return true;
-        }
-
-        return false;
+    public bool EndCondition(){ 
+        return (
+           food == null ||
+           forceQuit ||
+           Vector3.Distance(food.GetPosition(), rb.position) < UnitUtilities.TILE / 2
+        );
     }
 
     //set velocity to 0

@@ -53,7 +53,7 @@ public class ActionDebugger : MonoBehaviour
     }
     private void CreateActions()
     {
-        FindFood findFood = new();
+        FindFood findFood = new(true, true);
         InitAction(findFood);
 
         Wander wander = new();

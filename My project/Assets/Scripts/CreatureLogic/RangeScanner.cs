@@ -64,6 +64,10 @@ public class RangeScanner : MonoBehaviour
         return creaturesInRange;
     }
 
+    public HashSet<FoodScript> GetFoods (){
+        return foodInRange;
+    }
+
     public FoodScript GetNearestFood()
     {
         float distance = float.MaxValue;
