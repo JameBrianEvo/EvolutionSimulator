@@ -41,8 +41,9 @@ public class Wander : IAction
     {
         wanderTarget = data.SetRandomPath();
         forceQuit = false;
-        Vector3Int grid_position = GameManager.Instance.getGrid().WorldToCell(rb.position);
-        rb.velocity = new Vector2(wanderTarget.x - grid_position.x, wanderTarget.y - grid_position.y).normalized * data.Speed;
+
+        Vector3Int gridPosition = GameManager.Instance.getGrid().WorldToCell(rb.position);
+        rb.velocity = new Vector2(wanderTarget.x - gridPosition.x, wanderTarget.y - gridPosition.y).normalized * data.Speed;
         Debug.Log(rb.velocity);
     }
 
