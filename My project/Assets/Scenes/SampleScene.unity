@@ -36843,7 +36843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldMap: {fileID: 1104449226}
   creaturePrefab: {fileID: 7492689596350130786, guid: fe1f48aac56d1744081bfc59fce9caaf, type: 3}
-  numOfStartingCreatures: 1
+  numOfStartingCreatures: 10
   creatureHolder: {fileID: 1067818209}
 --- !u!114 &1424265772
 MonoBehaviour:
@@ -36878,8 +36878,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234d5a96879a658b6a08d215afb490f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsToDay: 5
-  daytimeSeconds: 4
+  secondsPerDay: 30
+  daytimeSeconds: 20
 --- !u!114 &1424265774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36892,7 +36892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbc8a4ffe2fb4a4b8cf59bac829c7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeather: 0
+  currentWeather: 1
 --- !u!1 &1509355983
 GameObject:
   m_ObjectHideFlags: 0

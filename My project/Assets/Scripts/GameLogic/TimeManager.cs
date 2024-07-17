@@ -9,7 +9,7 @@ public class TimeManager : MonoBehaviour
     private float Timer = 0;
 
     //amount of seconds
-    [SerializeField] private float secondsToDay = 60f;
+    [SerializeField] public float secondsPerDay = 60f;
 
     //amount of seconds for daytime
     [SerializeField] private float daytimeSeconds = 45f;
@@ -20,8 +20,9 @@ public class TimeManager : MonoBehaviour
     
     public bool IsDay { get; private set; }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        Debug.Log("Timemanager Instance is set");
         Instance = this;
         IsDay = true;
     }
@@ -30,7 +31,7 @@ public class TimeManager : MonoBehaviour
     void FixedUpdate()
     {
         //Debug.Log(Timer);
-        if(Timer < secondsToDay){
+        if(Timer < secondsPerDay){
             Timer += Time.deltaTime;
             if(Timer > daytimeSeconds && IsDay)
             {

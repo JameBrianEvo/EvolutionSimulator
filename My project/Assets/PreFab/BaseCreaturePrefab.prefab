@@ -213,13 +213,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7492689596350130786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53b43d13004b01d498a6deeee1853750, type: 3}
+  m_Script: {fileID: 11500000, guid: f99936bf2759d4dd58149e41192aca66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scanner: {fileID: 2703241657494187349}
   rb: {fileID: -4535732149646844776}
   collider: {fileID: 1861608521838971090}
-  metobolism_rate: 10
+  metabolismRate: 10
 --- !u!50 &-4535732149646844776
 Rigidbody2D:
   serializedVersion: 4
