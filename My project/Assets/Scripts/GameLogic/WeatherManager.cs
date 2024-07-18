@@ -36,8 +36,8 @@ public class WeatherManager : MonoBehaviour
         Array values = Enum.GetValues(typeof(Weather));
         int random = UnityEngine.Random.Range(0, values.Length);
         currentWeather = (Weather)values.GetValue(random);
-        Debug.Log(currentWeather);
-        Debug.Log(GetTemperature());
+        //Debug.Log(currentWeather);
+        //Debug.Log(GetTemperature());
     }
 
     //Temperature is calculated by weather, and time of day

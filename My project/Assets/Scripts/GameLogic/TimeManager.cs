@@ -47,13 +47,13 @@ public class TimeManager : MonoBehaviour
 
     private void ChangeToNight()
     {
-        Debug.Log("Change to night time");
+        //Debug.Log("Change to night time");
         IsDay = false;
     }
 
     private void ChangeToDay()
     {
-        Debug.Log("ChangeToDay to day time");
+        //Debug.Log("ChangeToDay to day time");
         IsDay = true;
     }
 }
