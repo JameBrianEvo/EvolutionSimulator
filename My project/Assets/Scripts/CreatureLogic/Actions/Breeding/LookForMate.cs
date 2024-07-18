@@ -99,4 +99,10 @@ public class LookForMate : IAction
     {
         this.scanner = scanner;
     }
+
+    override
+    public string ToString()
+    {
+        return "LookForMate";
+    }
 }
