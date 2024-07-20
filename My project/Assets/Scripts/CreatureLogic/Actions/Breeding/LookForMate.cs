@@ -11,7 +11,6 @@ public class LookForMate : IAction
     int requiredEnergy;
     //the time when creature can look for mate again
     //ie: time is 1:20 then creature can only look for mate after 1:20
-    float nextLookForMate = 0;
     //cooldown for looking for a mate
     float cooldown;
     bool mateFound;
@@ -21,13 +20,11 @@ public class LookForMate : IAction
     public LookForMate()
     {
         float secondsPerDay = TimeManager.Instance.secondsPerDay;
-        nextLookForMate = Random.Range(0f, secondsPerDay);
         cooldown = secondsPerDay;
         searchDuration = secondsPerDay / 4;
     }
     public void PrintStatus()
     {
-        Debug.Log("Next Look For Mate: " + nextLookForMate);
         Debug.Log("End of search and time: " + searchTimeEnd + " " + Time.time);
     }
 
@@ -36,7 +33,6 @@ public class LookForMate : IAction
     {
         mateFound = false;
         searchTimeEnd = Time.time + searchDuration;
-        //Debug.Log("Looking for mate");
     }
 
     //has enough energy to mate
@@ -44,7 +40,7 @@ public class LookForMate : IAction
     public bool StartCondition()
     {
         requiredEnergy = data.Energy / 2;
-        if(Time.time < nextLookForMate)
+        if(Time.time < searchTimeEnd + cooldown)
         {
             return false;
         }
@@ -81,8 +77,7 @@ public class LookForMate : IAction
 
     //reset cooldown
     public void OnExit()
-    {
-        nextLookForMate = Time.time + cooldown;
+    { 
     }
 
     public void SetData(CreatureData data)
