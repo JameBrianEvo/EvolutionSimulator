@@ -11,9 +11,8 @@ public class Breed : IAction
     Rigidbody2D rb;
     float breedDuration;
     float breedTimeEnd;
-    float nextBreedTime;
     float breedCooldown;
-    bool canBreed;
+    float childChance;
 
     public void PrintStatus()
     {
@@ -26,7 +25,7 @@ public class Breed : IAction
         breedDuration = TimeManager.Instance.secondsPerDay / 4;
         breedCooldown = TimeManager.Instance.secondsPerDay;
         breedTimeEnd = 0;
-        nextBreedTime = 0;
+        childChance = 0.5f;
     }
 
     //creature in range that has met the conditions of breedable
@@ -34,7 +33,7 @@ public class Breed : IAction
     //creature has already bred, then it is unable to breed according to its cooldown
     public bool StartCondition()
     {
-        if (Time.time < nextBreedTime)
+        if (Time.time < breedTimeEnd + breedCooldown)
         {
             //Debug.Log("Breed On Coowndown");
             return false;
@@ -59,19 +58,12 @@ public class Breed : IAction
     public void OnEnter()
     {
         breedTimeEnd = Time.time + breedDuration;
-        canBreed = false;
         rb.velocity = new Vector2(target.transform.position.x - rb.position.x, target.transform.position.y - rb.position.y).normalized * data.Speed;
     }
 
-    //if check if the target is going to breed
-    //else do nothing
+    //do nothing
     public void Run()
     {
-        if (target.currentActionNode.action.ToString().Equals("Breed"))
-        {
-            //Debug.Log("Can Breed");
-            canBreed = true;
-        }
     }
 
     //if creature in range is in range and has started the breed action
@@ -82,7 +74,7 @@ public class Breed : IAction
         {
             return true;
         }
-        return canBreed && (Vector3.Distance(target.GetTransform().position, rb.position) < UnitUtilities.TILE);
+        return target.currentActionNode.action.ToString().Equals("Breed") && (Vector3.Distance(target.GetTransform().position, rb.position) < UnitUtilities.TILE);
     }
 
     //if breeding was successful, then
@@ -90,13 +82,11 @@ public class Breed : IAction
     //decrease energy
     public void OnExit()
     {
-        if(Random.Range(0f,1f) > .5)
+        if(Random.Range(0f,1f) > childChance)
         {
             //Debug.Log("Successful Breeding " + data.ID + " |Breed Victim" + target.data.ID);
             CreateCreature.instance.BreedNewCreature(target.data, data);
         }
-        //decrease energy
-        nextBreedTime = Time.time + breedCooldown;
     }
 
     public void SetData(CreatureData data)
