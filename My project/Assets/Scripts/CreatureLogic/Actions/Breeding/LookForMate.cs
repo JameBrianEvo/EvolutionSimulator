@@ -5,20 +5,19 @@ using UnityEngine;
 public class LookForMate : IAction
 {
     //Class Variables
-    CreatureData data;
     Rigidbody2D rb;
     RangeScanner scanner;
+    EnergyData energyData;
+    BreedData breedData;
     int requiredEnergy;
-    //the time when creature can look for mate again
-    //ie: time is 1:20 then creature can only look for mate after 1:20
-    //cooldown for looking for a mate
     float cooldown;
-    bool mateFound;
     float searchTimeEnd;
     float searchDuration;
 
-    public LookForMate()
+    public LookForMate(EnergyData energyData, BreedData breedData)
     {
+        this.energyData = energyData;
+        this.breedData = breedData;
         float secondsPerDay = TimeManager.Instance.secondsPerDay;
         cooldown = secondsPerDay;
         searchDuration = secondsPerDay / 4;
@@ -31,7 +30,6 @@ public class LookForMate : IAction
 
     public void OnEnter()
     {
-        mateFound = false;
         searchTimeEnd = Time.time + searchDuration;
     }
 
@@ -39,12 +37,12 @@ public class LookForMate : IAction
     //is not on cooldown
     public bool StartCondition()
     {
-        requiredEnergy = data.Energy / 2;
+        requiredEnergy = energyData.energy / 2;
         if(Time.time < searchTimeEnd + cooldown)
         {
             return false;
         }
-        return data.CurrentEnergy >= requiredEnergy;
+        return energyData.currentEnergy >= requiredEnergy;
     }
 
     //continuously search for mate
@@ -55,10 +53,10 @@ public class LookForMate : IAction
         foreach (BaseCreature creature in scanner.GetCreatures())
         {
             //Debug.Log(creature.data.ID + "In Mating Range");
-            if (creature.data.CurrentEnergy > creature.data.Energy/2)
+            if (creature.data.energyData.currentEnergy > creature.data.energyData.energy/2)
             {
                 //Debug.Log("Mate Found");
-                mateFound = true;
+                breedData.targetCreature = creature;
             }
         }
     }
@@ -72,17 +70,12 @@ public class LookForMate : IAction
             return true;
         }
 
-        return mateFound;
+        return breedData.targetCreature != null;
     }
 
     //reset cooldown
     public void OnExit()
     { 
-    }
-
-    public void SetData(CreatureData data)
-    {
-        this.data = data;
     }
 
     public void SetRigidBody(Rigidbody2D rb)

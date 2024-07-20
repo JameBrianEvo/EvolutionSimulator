@@ -6,53 +6,48 @@ public class EatFood : IAction
 {
     //Class Variables
     public Rigidbody2D rb;
-    public CreatureData data;
-    private RangeScanner scanner;
-    private FoodScript food;
     private bool finishedEating = false;
+    private EnergyData energyData;
+    private FoodData foodData;
+
+    public EatFood(EnergyData energyData, FoodData foodData)
+    {
+        this.energyData = energyData;
+        this.foodData = foodData;
+    }
 
     public bool EndCondition()
     {
-        return food == null || finishedEating;
+        return foodData.targetFood == null || finishedEating;
     }
 
+    //do nothing
     public void OnExit()
     {
-
     }
 
     public void Run()
     {
         //if eating animation finishes, finished eating = true;
-        data.IncreaseEnergy(food.EatFood());
+        energyData.IncreaseEnergy(foodData.targetFood.EatFood());
         finishedEating = true;
     }
 
     public bool StartCondition()
     {
-        food = scanner.GetNearestFood();
-        return food != null;
+        return foodData.targetFood != null;
     }
 
     public void OnEnter()
     {
         finishedEating = false;
         //start eating animation
-
     }
 
     
-
+    //nothing to print
     public void PrintStatus()
     {
-        Debug.Log(food);
-    }
-
-
-
-    public void SetData(CreatureData data)
-    {
-        this.data = data;
     }
 
     public void SetRigidBody(Rigidbody2D rb)
@@ -60,9 +55,9 @@ public class EatFood : IAction
         this.rb = rb;
     }
 
+    //not needed
     public void SetScanner(RangeScanner scanner)
     {
-        this.scanner = scanner;
     }
    
 }

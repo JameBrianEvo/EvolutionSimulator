@@ -15,12 +15,11 @@ public class FindFoodDebugger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreatureData data = new(1, 100, Random.Range(30, 40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
-        findFood = new FindFood(true, true);
-        findFood.SetData(data);
+        CreatureData data = new(1, 100, Random.Range(30, 40), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+        findFood = new FindFood(data.energyData, data.movementData, data.foodData);
         findFood.SetRigidBody(rb);
         findFood.SetScanner(scanner);
-        scanner.SetRange(data.SightRange);
+        scanner.SetRange(data.attributesData.sightRange);
     }
 
     // Update is called once per frame

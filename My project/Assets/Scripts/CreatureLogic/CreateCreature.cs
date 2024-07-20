@@ -41,17 +41,17 @@ public class CreateCreature : MonoBehaviour
         GameObject creature = Instantiate(creaturePrefab, random_position, Quaternion.identity);
         creature.transform.parent = creatureHolder.transform;
 
-        CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE, UnitUtilities.TILE * 5f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
+        CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE, UnitUtilities.TILE * 5f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
         baseCreature.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
         
         baseCreature.SetData(data);
         SpriteRenderer spriteR = creature.GetComponent<SpriteRenderer>();
-        spriteR.color = data.Color;
+        spriteR.color = data.attributesData.color;
         //Instantiate(creature);
         //Debug.Log("Creature Created");
 
-        creature.name = baseCreature.data.ID.ToString();
+        creature.name = baseCreature.data.attributesData.ID.ToString();
     }
 
     public void BreedNewCreature(CreatureData data1, CreatureData data2){
@@ -66,8 +66,8 @@ public class CreateCreature : MonoBehaviour
         creatureBase.SetActions(CreateActions(newCreature.GetComponent<Rigidbody2D>(),data3,newCreature.GetComponentInChildren<RangeScanner>()));
  
         SpriteRenderer spriteR = newCreature.GetComponent<SpriteRenderer>();
-        spriteR.color = data3.Color;
-        newCreature.name = creatureBase.data.ID.ToString();
+        spriteR.color = data3.attributesData.color;
+        newCreature.name = creatureBase.data.attributesData.ID.ToString();
     }
 
     private CreatureData CreateData(CreatureData parent1, CreatureData parent2, Rigidbody2D creature_rb, RangeScanner scanner){
@@ -75,40 +75,40 @@ public class CreateCreature : MonoBehaviour
         int min;
         int max;
 
-        min = parent1.Energy < parent2.Energy ? parent1.Energy : parent2.Energy;
-        max = parent1.Energy > parent2.Energy ? parent1.Energy : parent2.Energy;
+        min = parent1.energyData.energy < parent2.energyData.energy ? parent1.energyData.energy : parent2.energyData.energy;
+        max = parent1.energyData.energy > parent2.energyData.energy ? parent1.energyData.energy : parent2.energyData.energy;
         int energy = Random.Range(min-1, max + 1);
 
-        min = parent1.SightRange < parent2.SightRange ? parent1.SightRange : parent2.SightRange;
-        max = parent1.SightRange > parent2.SightRange ? parent1.SightRange : parent2.SightRange;
+        min = parent1.attributesData.sightRange < parent2.attributesData.sightRange ? parent1.attributesData.sightRange : parent2.attributesData.sightRange;
+        max = parent1.attributesData.sightRange > parent2.attributesData.sightRange ? parent1.attributesData.sightRange : parent2.attributesData.sightRange;
         int sight_range = Random.Range(min -1, max +1);
 
         float fmin, fmax;
-        fmin = parent1.Speed < parent2.Speed ? parent1.Speed : parent2.Speed;
-        fmax = parent1.Speed  > parent2.Speed ? parent1.Speed : parent2.Speed;
+        fmin = parent1.movementData.speed < parent2.movementData.speed ? parent1.movementData.speed : parent2.movementData.speed;
+        fmax = parent1.movementData.speed > parent2.movementData.speed ? parent1.movementData.speed : parent2.movementData.speed;
         float speed = Random.Range(fmin - UnitUtilities.TILE/2, fmax + UnitUtilities.TILE/2);
 
-        Color color = Color.Lerp(parent1.Color, parent2.Color, 1);
-        data = new(id, energy, speed, sight_range, color, creature_rb.transform);
+        Color color = Color.Lerp(parent1.attributesData.color, parent2.attributesData.color, 1);
+        data = new(id, energy, speed, sight_range, color);
         return data;
     }
 
     private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
         
-        FindFood findFood = new(true, true);
-        InitAction(findFood, creature_rb, data, scanner);
+        FindFood findFood = new(data.energyData, data.movementData, data.foodData);
+        InitAction(findFood, creature_rb, scanner);
 
-        LookForMate lookForMate = new();
-        InitAction(lookForMate, creature_rb, data, scanner);
+        LookForMate lookForMate = new(data.energyData, data.breedData);
+        InitAction(lookForMate, creature_rb, scanner);
 
-        Breed breed = new();
-        InitAction(breed, creature_rb, data, scanner);
+        Breed breed = new(data, data.breedData, data.movementData);
+        InitAction(breed, creature_rb, scanner);
 
-        Wander wander = new();
-        InitAction(wander, creature_rb, data, scanner);
+        Wander wander = new(data.energyData, data.movementData);
+        InitAction(wander, creature_rb, scanner);
 
-        EatFood eatFood = new();
-        InitAction(eatFood, creature_rb, data, scanner);
+        EatFood eatFood = new(data.energyData, data.foodData);
+        InitAction(eatFood, creature_rb, scanner);
 
         ActionNode findFoodNode = new(findFood);
         ActionNode wanderNode = new(wander);
@@ -142,8 +142,7 @@ public class CreateCreature : MonoBehaviour
         return actions;
     }
 
-    private void InitAction(IAction action, Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
-        action.SetData(data);
+    private void InitAction(IAction action, Rigidbody2D creature_rb, RangeScanner scanner){
         action.SetRigidBody(creature_rb);
         action.SetScanner(scanner);
     }

@@ -12,21 +12,24 @@ public class FindFood : IAction
 
     //action variables
     public Rigidbody2D rb;
-    public CreatureData data;
     private RangeScanner scanner;
     private Grid grid;
-    private FoodScript food;
-    private bool forceQuit;
+    private FoodData foodData;
+    private EnergyData energyData;
+    private MovementData movementData;
 
     //set a food strategy
     //set grid
-    public FindFood(bool plant, bool meat)
+    public FindFood(EnergyData energyData, MovementData movementData, FoodData foodData)
     {
-        if (!plant)
+        this.energyData = energyData;
+        this.movementData = movementData;
+        this.foodData = foodData;
+        if (!foodData.eatPlants)
         {
             Debug.Log("MEAT EATER");
             findFoodStrategy = new FindFoodCarnivore();
-        } else if (!meat)
+        } else if (!foodData.eatMeat)
         {
             Debug.Log("Plant Eater");
             findFoodStrategy = new FindFoodHerbivore();
@@ -45,11 +48,6 @@ public class FindFood : IAction
         this.rb = rb;
     }
 
-    public void SetData(CreatureData data)
-    {
-        this.data = data;
-    }
-
     public void SetScanner(RangeScanner rangeScanner)
     {
         scanner = rangeScanner;
@@ -60,29 +58,23 @@ public class FindFood : IAction
     public bool StartCondition()
     {
        
-        if (data.IsFull())
+        if (energyData.IsFull())
         {
             return false;
         }
-        food = findFoodStrategy.FindFood(scanner, rb);  
-        return food != null;
+        foodData.targetFood = findFoodStrategy.FindFood(scanner, rb);  
+        return foodData.targetFood != null;
     }
 
 
     public void OnEnter()
     {
-        rb.velocity = new Vector2(food.GetPosition().x - rb.position.x, food.GetPosition().y - rb.position.y).normalized * data.Speed;
-        data.SetNewTargetLocation(grid.WorldToCell(food.GetPosition()));
-        forceQuit = false;
+        rb.velocity = new Vector2(foodData.targetFood.GetPosition().x - rb.position.x, foodData.targetFood.GetPosition().y - rb.position.y).normalized * movementData.speed;
     }
 
-    //when running, check for obstacles, if true then "force quit" the action
+    //do nothing
     public void Run()
     {
-        if (ActionUtils.IsObstacleDetected(rb))
-        {
-            forceQuit = true;
-        }
     }
 
     //if force quit then return true
@@ -90,9 +82,9 @@ public class FindFood : IAction
     //otherwise return false
     public bool EndCondition(){ 
         return (
-           food == null ||
-           forceQuit ||
-           Vector3.Distance(food.GetPosition(), rb.position) < UnitUtilities.TILE / 2
+           foodData.targetFood == null ||
+           ActionUtils.IsObstacleDetected(rb) ||
+           Vector3.Distance(foodData.targetFood.GetPosition(), rb.position) < UnitUtilities.TILE / 2
         );
     }
 
@@ -110,6 +102,6 @@ public class FindFood : IAction
     public void PrintStatus()
     {
         Debug.Log(ToString());
-        Debug.Log("Food Location: " + grid.WorldToCell(food.GetPosition()));
+        Debug.Log("Food Location: " + grid.WorldToCell(foodData.targetFood.GetPosition()));
     }
 }

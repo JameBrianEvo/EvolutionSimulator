@@ -17,8 +17,6 @@ public class BaseCreature : MonoBehaviour
 
     [SerializeField]
     private Rigidbody2D rb;
-    [SerializeField]
-    Collider2D collider;
     
     //private List<ActionBase> actions;
     public ActionGraph graph {get; private set;}
@@ -32,7 +30,7 @@ public class BaseCreature : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scanner.SetRange(data.SightRange);
+        scanner.SetRange(data.attributesData.sightRange);
         scanner.Enable();
     }
     // Update is called once per frame
@@ -47,7 +45,7 @@ public class BaseCreature : MonoBehaviour
     {
         if (metabolismTimer > metabolismRate)
         {
-            data.DecreaseEnergy(1);
+            data.energyData.DecreaseEnergy(1);
             metabolismTimer = 0;
         }
         else
@@ -70,7 +68,7 @@ public class BaseCreature : MonoBehaviour
 
     private void CheckDeath()
     {
-        if (data.CurrentEnergy <= 0)
+        if (data.energyData.currentEnergy <= 0)
         {
             Debug.Log("I Died");
             Destroy(gameObject);
@@ -90,7 +88,7 @@ public class BaseCreature : MonoBehaviour
 
     public int GetAge()
     {
-        return (int)((Time.time - data.TimeBorn) / 60); 
+        return (int)((Time.time - data.attributesData.timeOfBirth) / 60); 
     }
     
     public Transform GetTransform() { return transform; }
