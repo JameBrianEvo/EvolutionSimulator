@@ -41,7 +41,7 @@ public class CreateCreature : MonoBehaviour
         GameObject creature = Instantiate(creaturePrefab, random_position, Quaternion.identity);
         creature.transform.parent = creatureHolder.transform;
 
-        CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE * 5f, UnitUtilities.TILE * 10f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
+        CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE, UnitUtilities.TILE * 5f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), creature.transform);
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
         baseCreature.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
         
@@ -86,7 +86,7 @@ public class CreateCreature : MonoBehaviour
         float fmin, fmax;
         fmin = parent1.Speed < parent2.Speed ? parent1.Speed : parent2.Speed;
         fmax = parent1.Speed  > parent2.Speed ? parent1.Speed : parent2.Speed;
-        float speed = Random.Range(min -1, max +1);
+        float speed = Random.Range(fmin - UnitUtilities.TILE/2, fmax + UnitUtilities.TILE/2);
 
         Color color = Color.Lerp(parent1.Color, parent2.Color, 1);
         data = new(id, energy, speed, sight_range, color, creature_rb.transform);
@@ -95,8 +95,14 @@ public class CreateCreature : MonoBehaviour
 
     private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
         
-        FindFood findFood = new(false, true);
+        FindFood findFood = new(true, true);
         InitAction(findFood, creature_rb, data, scanner);
+
+        LookForMate lookForMate = new();
+        InitAction(lookForMate, creature_rb, data, scanner);
+
+        Breed breed = new();
+        InitAction(breed, creature_rb, data, scanner);
 
         Wander wander = new();
         InitAction(wander, creature_rb, data, scanner);
@@ -107,16 +113,30 @@ public class CreateCreature : MonoBehaviour
         ActionNode findFoodNode = new(findFood);
         ActionNode wanderNode = new(wander);
         ActionNode eatFoodNode = new(eatFood);
+        ActionNode lookForMateNode = new(lookForMate);
+        ActionNode breedNode = new(breed);
 
         findFoodNode.AddAction(eatFoodNode);
         findFoodNode.AddAction(wanderNode);
+
+        wanderNode.AddAction(breedNode);
+        wanderNode.AddAction(lookForMateNode);
         wanderNode.AddAction(findFoodNode);
         wanderNode.AddAction(wanderNode);
+
         eatFoodNode.AddAction(wanderNode);
+
+        lookForMateNode.AddAction(wanderNode);
+        lookForMateNode.AddAction(breedNode);
+
+        breedNode.AddAction(wanderNode);
 
         List<ActionNode> action_list = new();
         action_list.Add(wanderNode);
         action_list.Add(findFoodNode);
+        action_list.Add(eatFoodNode);
+        action_list.Add(lookForMateNode);
+        action_list.Add(breedNode);
         ActionGraph actions = new(wanderNode, action_list);
 
         return actions;

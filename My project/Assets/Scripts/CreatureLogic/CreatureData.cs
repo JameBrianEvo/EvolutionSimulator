@@ -19,7 +19,6 @@ public class CreatureData
     public int SightRange {get;}
     [SerializeField]
     public float Speed { get; private set;}
-    public BaseCreature Target {get; set;}
     public float TimeBorn {get; private set;}
     public Color Color { get; private set;}
 

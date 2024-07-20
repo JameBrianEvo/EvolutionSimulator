@@ -33,7 +33,6 @@ public class BaseCreature : MonoBehaviour
     void Start()
     {
         scanner.SetRange(data.SightRange);
-        data.Target = null;
         scanner.Enable();
     }
     // Update is called once per frame
