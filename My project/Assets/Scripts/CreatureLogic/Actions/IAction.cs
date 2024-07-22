@@ -5,7 +5,6 @@ using UnityEngine;
 public interface IAction 
 {
     public void SetRigidBody(Rigidbody2D rb);
-    public void SetData(CreatureData data);
     public void SetScanner(RangeScanner scanner);
     public bool StartCondition();
     public bool EndCondition();

@@ -7,22 +7,24 @@ using UnityEngine;
 
 public class Wander : IAction
 {
-    CreatureData data;
     Rigidbody2D rb;
-    bool forceQuit = false;
     Vector3Int wanderTarget;
     Grid grid;
+    EnergyData energyData;
+    MovementData movementData;
 
 
-    public Wander()
+    public Wander(EnergyData energyData, MovementData movementData)
     {
+        this.movementData = movementData;
+        this.energyData = energyData;
         grid = GameManager.Instance.getGrid();
     }
 
     public bool EndCondition()
     {
         //Debug.Log(forceQuit);
-        if (forceQuit == true)
+        if (ActionUtils.IsObstacleDetected(rb))
         {
             return true;
         }
@@ -39,12 +41,11 @@ public class Wander : IAction
      */
     public void OnEnter()
     {
-        wanderTarget = data.SetRandomPath();
-        forceQuit = false;
-
+        wanderTarget = SetRandomPath();
         Vector3Int gridPosition = GameManager.Instance.getGrid().WorldToCell(rb.position);
-        rb.velocity = new Vector2(wanderTarget.x - gridPosition.x, wanderTarget.y - gridPosition.y).normalized * data.Speed;
-        Debug.Log(rb.velocity);
+        rb.velocity = new Vector2(wanderTarget.x - gridPosition.x, wanderTarget.y - gridPosition.y).normalized * movementData.speed;
+        //Debug.Log(wanderTarget);
+        //Debug.Log("Speed: " + movementData.speed);
     }
 
     public void OnExit()
@@ -54,16 +55,6 @@ public class Wander : IAction
 
     public void Run()
     {
-        if (ActionUtils.IsObstacleDetected(rb))
-        {
-       
-            forceQuit = true;
-        }
-    }
-
-    public void SetData(CreatureData data)
-    {
-        this.data = data;
     }
 
     public void SetRigidBody(Rigidbody2D rb)
@@ -91,5 +82,17 @@ public class Wander : IAction
         Debug.Log(this.ToString());
         Debug.Log("Target Location: " + wanderTarget.ToString());
         Debug.Log("Distance: " + Vector3.Distance(rb.position, grid.CellToWorld(wanderTarget)));
+    }
+
+    public Vector3Int SetRandomPath()
+    {
+        int negativex = UnityEngine.Random.Range(0f, 1f) > .5f ? -1 : 1;
+        int negativey = UnityEngine.Random.Range(0f, 1f) > .5f ? -1 : 1;
+        Vector3Int og_position = grid.WorldToCell(rb.position);
+        Vector3Int position = grid.WorldToCell(rb.position);
+
+        position.x = og_position.x + negativex * UnityEngine.Random.Range(5, 10);
+        position.y = og_position.y + negativey * UnityEngine.Random.Range(5, 10);
+        return position;
     }
 }

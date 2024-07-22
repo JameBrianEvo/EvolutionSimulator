@@ -44,8 +44,8 @@ public class CreatureManager : MonoBehaviour
         List<BaseCreature> listOfCreatures = new List<BaseCreature>(gameObject.GetComponentsInChildren<BaseCreature>());
         float AvSpeed = 0, AvRange = 0;
         foreach(BaseCreature creature in listOfCreatures){
-            AvRange += creature.data.SightRange;
-            AvSpeed += creature.data.Speed;
+            AvRange += creature.data.attributesData.sightRange;
+            AvSpeed += creature.data.movementData.speed;
         }
         writer.WriteLine("Log");
         writer.WriteLine("Average Speed" + AvSpeed / listOfCreatures.Count);

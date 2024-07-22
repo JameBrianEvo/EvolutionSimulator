@@ -61,12 +61,11 @@ public class DebugManager : MonoBehaviour
         //speed
 
         string stats = "";
-        stats += "ID:\t" +creature.data.ID + "\n";
-        stats += "Energy:" +creature.data.CurrentEnergy + " / " + creature.data.Energy + "\n";
+        stats += "ID:\t" +creature.data.attributesData.ID + "\n";
+        stats += "Energy:" +creature.data.energyData.currentEnergy + " / " + creature.data.energyData.energy + "\n";
         stats += "Age:\t" +creature.GetAge() + "\n";
-        stats += "Sight Range:" +creature.data.SightRange + "\n";
-        stats += "Speed:"+creature.data.Speed + "\n";
-        stats += "Target Location: " + creature.data.TargetLocation + "\n";
+        stats += "Sight Range:" +creature.data.attributesData.sightRange + "\n";
+        stats += "Speed:"+creature.data.movementData.speed + "\n";
         stats += "Current Location:" + creature.transform.position + "\n";
         stats += "Action: " + creature.currentActionNode.action.ToString();
 

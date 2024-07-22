@@ -5,7 +5,8 @@ using UnityEngine;
 public class Breed : IAction
 {
     //class variables
-    BaseCreature target;
+    BreedData breedData;
+    MovementData movementData;
     CreatureData data;
     RangeScanner scanner;
     Rigidbody2D rb;
@@ -19,8 +20,11 @@ public class Breed : IAction
         
     }
 
-    public Breed()
+    public Breed(CreatureData data, BreedData breedData, MovementData movementData)
     {
+        this.data = data;
+        this.breedData = breedData;
+        this.movementData = movementData;
         //breed duration lasts a quarter traits may further change these
         breedDuration = TimeManager.Instance.secondsPerDay / 4;
         breedCooldown = TimeManager.Instance.secondsPerDay;
@@ -28,9 +32,8 @@ public class Breed : IAction
         childChance = 0.5f;
     }
 
-    //creature in range that has met the conditions of breedable
-    //creature in range is in breed action, and creature is willing to breed
-    //creature has already bred, then it is unable to breed according to its cooldown
+    //if on cooldown then return false
+    //if it has a target already, then return true
     public bool StartCondition()
     {
         if (Time.time < breedTimeEnd + breedCooldown)
@@ -39,18 +42,22 @@ public class Breed : IAction
             return false;
         }
 
-        foreach(BaseCreature creature in scanner.GetCreatures())
+        if (breedData.targetCreature != null)
+        {
+            return true;
+        }
+
+        foreach (BaseCreature creature in scanner.GetCreatures())
         {
             string currentAction = creature.currentActionNode.action.ToString();
-            if (creature.data.CurrentEnergy >= creature.data.Energy / 2
-                || currentAction.Equals("LookForMate")
-                || currentAction.Equals("Breed")) 
+            if (creature.data.energyData.currentEnergy >= creature.data.energyData.energy / 2
+                || currentAction.Equals("Breed"))
             {
-                target = creature;
+                breedData.targetCreature = creature;
                 //Debug.Log("Breeder " + data.ID + " |Breed Victim" + target.data.ID);
                 return true;
             }
-        }
+            }
         return false;
     }
 
@@ -58,7 +65,8 @@ public class Breed : IAction
     public void OnEnter()
     {
         breedTimeEnd = Time.time + breedDuration;
-        rb.velocity = new Vector2(target.transform.position.x - rb.position.x, target.transform.position.y - rb.position.y).normalized * data.Speed;
+        Vector2 targetPosition = breedData.targetCreature.transform.position;
+        rb.velocity = new Vector2(targetPosition.x - rb.position.x, targetPosition.y - rb.position.y).normalized * movementData.speed;
     }
 
     //do nothing
@@ -74,7 +82,7 @@ public class Breed : IAction
         {
             return true;
         }
-        return target.currentActionNode.action.ToString().Equals("Breed") && (Vector3.Distance(target.GetTransform().position, rb.position) < UnitUtilities.TILE);
+        return (Vector3.Distance(breedData.targetCreature.transform.position, rb.position) < UnitUtilities.TILE);
     }
 
     //if breeding was successful, then
@@ -82,16 +90,12 @@ public class Breed : IAction
     //decrease energy
     public void OnExit()
     {
-        if(Random.Range(0f,1f) > childChance)
+        if(Random.Range(0f,1f) > childChance && Time.time < breedTimeEnd)
         {
             //Debug.Log("Successful Breeding " + data.ID + " |Breed Victim" + target.data.ID);
-            CreateCreature.instance.BreedNewCreature(target.data, data);
+            CreateCreature.instance.BreedNewCreature(breedData.targetCreature.data, data);
         }
-    }
-
-    public void SetData(CreatureData data)
-    {
-        this.data = data;
+        breedData.targetCreature = null;
     }
 
     public void SetRigidBody(Rigidbody2D rb)

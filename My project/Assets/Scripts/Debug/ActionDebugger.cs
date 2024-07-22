@@ -15,7 +15,7 @@ public class ActionDebugger : MonoBehaviour
     void Start()
     {
         //Creating Randomized Data
-        data = new(1001, 100, Random.Range(UnitUtilities.TILE * 5, UnitUtilities.TILE * 10), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)), transform);
+        data = new(1001, 100, Random.Range(UnitUtilities.TILE * 5, UnitUtilities.TILE * 10), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
 
         //Setting the action tree
         CreateActions();
@@ -53,10 +53,10 @@ public class ActionDebugger : MonoBehaviour
     }
     private void CreateActions()
     {
-        FindFood findFood = new(true, true);
+        FindFood findFood = new(data.energyData, data.movementData, data.foodData);
         InitAction(findFood);
 
-        Wander wander = new();
+        Wander wander = new(new(5), new(5));
         InitAction(wander);
 
         ActionNode findFoodNode = new(findFood);
@@ -72,7 +72,6 @@ public class ActionDebugger : MonoBehaviour
 
     private void InitAction(IAction action)
     {
-        action.SetData(data);
         action.SetRigidBody(rb);
         action.SetScanner(scanner);
     }
