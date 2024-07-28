@@ -71,6 +71,7 @@ public class BaseCreature : MonoBehaviour
         if (data.energyData.currentEnergy <= 0)
         {
             Debug.Log("I Died");
+            FoodManager.Instance.SpawnCorpse(transform.position, data.energyData.energy / 2);
             Destroy(gameObject);
         } 
     }

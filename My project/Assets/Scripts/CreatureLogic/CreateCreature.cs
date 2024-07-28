@@ -101,7 +101,7 @@ public class CreateCreature : MonoBehaviour
         LookForMate lookForMate = new(data.energyData, data.breedData);
         InitAction(lookForMate, creature_rb, scanner);
 
-        Breed breed = new(data, data.breedData, data.movementData);
+        Breed breed = new(data);
         InitAction(breed, creature_rb, scanner);
 
         Wander wander = new(data.energyData, data.movementData);
