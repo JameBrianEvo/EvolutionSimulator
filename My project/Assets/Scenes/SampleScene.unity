@@ -36843,7 +36843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldMap: {fileID: 1104449226}
   creaturePrefab: {fileID: 7492689596350130786, guid: fe1f48aac56d1744081bfc59fce9caaf, type: 3}
-  numOfStartingCreatures: 10
+  numOfStartingCreatures: 20
   creatureHolder: {fileID: 1067818209}
 --- !u!114 &1424265772
 MonoBehaviour:

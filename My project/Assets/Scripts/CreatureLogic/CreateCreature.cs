@@ -110,15 +110,22 @@ public class CreateCreature : MonoBehaviour
         EatFood eatFood = new(data.energyData, data.foodData);
         InitAction(eatFood, creature_rb, scanner);
 
+        Sleeping sleeping = new();
+        InitAction(sleeping, creature_rb, scanner);
+        //50% chance of either sleeping during the day or night
+        sleeping.SetTraits(Random.Range(0,2) == 0);
+
         ActionNode findFoodNode = new(findFood);
         ActionNode wanderNode = new(wander);
         ActionNode eatFoodNode = new(eatFood);
         ActionNode lookForMateNode = new(lookForMate);
         ActionNode breedNode = new(breed);
+        ActionNode sleepingNode = new(sleeping);
 
         findFoodNode.AddAction(eatFoodNode);
         findFoodNode.AddAction(wanderNode);
 
+        wanderNode.AddAction(sleepingNode);
         wanderNode.AddAction(breedNode);
         wanderNode.AddAction(lookForMateNode);
         wanderNode.AddAction(findFoodNode);
@@ -131,12 +138,15 @@ public class CreateCreature : MonoBehaviour
 
         breedNode.AddAction(wanderNode);
 
+        sleepingNode.AddAction(wanderNode);
+
         List<ActionNode> action_list = new();
         action_list.Add(wanderNode);
         action_list.Add(findFoodNode);
         action_list.Add(eatFoodNode);
         action_list.Add(lookForMateNode);
         action_list.Add(breedNode);
+        action_list.Add(sleepingNode);
         ActionGraph actions = new(wanderNode, action_list);
 
         return actions;
