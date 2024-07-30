@@ -6,10 +6,10 @@ public class ActionGraph
 {
 
     public ActionNode root{get; private set;}
-    List<ActionNode> nodes;
-    public ActionGraph(ActionNode root, List<ActionNode> nodes)
+    public List<ActionNode> actionNodes { get; private set; }
+    public ActionGraph(ActionNode root, List<ActionNode> actionNodes)
     {
         this.root = root;
-        this.nodes = nodes;
+        this.actionNodes = actionNodes;
     }
 }
