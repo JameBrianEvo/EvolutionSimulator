@@ -12,7 +12,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] public float secondsPerDay = 60f;
 
     //amount of seconds for daytime
-    [SerializeField] private float daytimeSeconds = 45f;
+    [SerializeField] public float daytimeSeconds = 45f;
 
     //amount of days that have pased
     public int Day { get; private set; }

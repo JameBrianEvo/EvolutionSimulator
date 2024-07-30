@@ -102,9 +102,9 @@ public class CreateCreature : MonoBehaviour
                .AddWandering()
                .AddEatFood();
         ActionGraph graph = builder.Build();
-
         ActionLinker linker = new(graph);
         linker.LinkWandering().LinkLookForMate().LinkFindFood().LinkEatFood().LinkBreed();
+
 
         return builder.Build();
     }
