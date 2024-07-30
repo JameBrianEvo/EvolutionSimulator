@@ -94,62 +94,19 @@ public class CreateCreature : MonoBehaviour
     }
 
     private ActionGraph CreateActions(Rigidbody2D creature_rb, CreatureData data, RangeScanner scanner){
-        
-        FindFood findFood = new(data.energyData, data.movementData, data.foodData);
-        InitAction(findFood, creature_rb, scanner);
 
-        LookForMate lookForMate = new(data.energyData, data.breedData);
-        InitAction(lookForMate, creature_rb, scanner);
+        ActionsBuilder builder = new ActionsBuilder(creature_rb, data, scanner);
+        builder.AddFindFood()
+               .AddLookForMate()
+               .AddBreed()
+               .AddWandering()
+               .AddEatFood();
+        ActionGraph graph = builder.Build();
+        ActionLinker linker = new(graph);
+        linker.LinkWandering().LinkLookForMate().LinkFindFood().LinkEatFood().LinkBreed();
 
-        Breed breed = new(data);
-        InitAction(breed, creature_rb, scanner);
 
-        Wander wander = new(data.energyData, data.movementData);
-        InitAction(wander, creature_rb, scanner);
-
-        EatFood eatFood = new(data.energyData, data.foodData);
-        InitAction(eatFood, creature_rb, scanner);
-
-        Sleeping sleeping = new();
-        InitAction(sleeping, creature_rb, scanner);
-        //50% chance of either sleeping during the day or night
-        sleeping.SetTraits(Random.Range(0,2) == 0);
-
-        ActionNode findFoodNode = new(findFood);
-        ActionNode wanderNode = new(wander);
-        ActionNode eatFoodNode = new(eatFood);
-        ActionNode lookForMateNode = new(lookForMate);
-        ActionNode breedNode = new(breed);
-        ActionNode sleepingNode = new(sleeping);
-
-        findFoodNode.AddAction(eatFoodNode);
-        findFoodNode.AddAction(wanderNode);
-
-        wanderNode.AddAction(sleepingNode);
-        wanderNode.AddAction(breedNode);
-        wanderNode.AddAction(lookForMateNode);
-        wanderNode.AddAction(findFoodNode);
-        wanderNode.AddAction(wanderNode);
-
-        eatFoodNode.AddAction(wanderNode);
-
-        lookForMateNode.AddAction(wanderNode);
-        lookForMateNode.AddAction(breedNode);
-
-        breedNode.AddAction(wanderNode);
-
-        sleepingNode.AddAction(wanderNode);
-
-        List<ActionNode> action_list = new();
-        action_list.Add(wanderNode);
-        action_list.Add(findFoodNode);
-        action_list.Add(eatFoodNode);
-        action_list.Add(lookForMateNode);
-        action_list.Add(breedNode);
-        action_list.Add(sleepingNode);
-        ActionGraph actions = new(wanderNode, action_list);
-
-        return actions;
+        return builder.Build();
     }
 
     private void InitAction(IAction action, Rigidbody2D creature_rb, RangeScanner scanner){
