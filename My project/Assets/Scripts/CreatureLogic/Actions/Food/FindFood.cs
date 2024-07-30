@@ -17,6 +17,7 @@ public class FindFood : IAction
     private FoodData foodData;
     private EnergyData energyData;
     private MovementData movementData;
+    private Vector2 startingPosition;
 
     //set a food strategy
     //set grid
@@ -69,6 +70,7 @@ public class FindFood : IAction
 
     public void OnEnter()
     {
+        startingPosition = rb.position;
         rb.velocity = new Vector2(foodData.targetFood.GetPosition().x - rb.position.x, foodData.targetFood.GetPosition().y - rb.position.y).normalized * movementData.speed;
     }
 
@@ -91,6 +93,7 @@ public class FindFood : IAction
     //set velocity to 0
     public void OnExit(){
         rb.velocity *= 0;
+        energyData.DecreaseEnergy(ActionUtils.CalculateEnergy(startingPosition, rb.position, movementData.speed));
     }
 
     override

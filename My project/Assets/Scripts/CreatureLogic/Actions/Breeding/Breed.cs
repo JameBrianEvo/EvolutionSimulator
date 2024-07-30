@@ -7,9 +7,11 @@ public class Breed : IAction
     //class variables
     BreedData breedData;
     MovementData movementData;
+    EnergyData energyData;
     CreatureData data;
     RangeScanner scanner;
     Rigidbody2D rb;
+    Vector2 startingPosition;
     float breedDuration;
     float breedTimeEnd;
     float breedCooldown;
@@ -20,11 +22,12 @@ public class Breed : IAction
         
     }
 
-    public Breed(CreatureData data, BreedData breedData, MovementData movementData)
+    public Breed(CreatureData data)
     {
         this.data = data;
-        this.breedData = breedData;
-        this.movementData = movementData;
+        this.breedData = data.breedData;
+        this.movementData = data.movementData;
+        this.energyData = data.energyData;
         //breed duration lasts a quarter traits may further change these
         breedDuration = TimeManager.Instance.secondsPerDay / 4;
         breedCooldown = TimeManager.Instance.secondsPerDay;
@@ -64,6 +67,7 @@ public class Breed : IAction
     //Set time limit of breed
     public void OnEnter()
     {
+        startingPosition = rb.position;
         breedTimeEnd = Time.time + breedDuration;
         Vector2 targetPosition = breedData.targetCreature.transform.position;
         rb.velocity = new Vector2(targetPosition.x - rb.position.x, targetPosition.y - rb.position.y).normalized * movementData.speed;
@@ -95,6 +99,7 @@ public class Breed : IAction
             //Debug.Log("Successful Breeding " + data.ID + " |Breed Victim" + target.data.ID);
             CreateCreature.instance.BreedNewCreature(breedData.targetCreature.data, data);
         }
+        energyData.DecreaseEnergy(ActionUtils.CalculateEnergy(startingPosition, rb.position, movementData.speed));
         breedData.targetCreature = null;
     }
 
