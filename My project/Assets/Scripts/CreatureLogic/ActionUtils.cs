@@ -22,4 +22,14 @@ public static class ActionUtils {
 
         return false;
     }
+
+    //average speeds are between 0.16  = (UnitUtilities.Tile) and 0.16 * 5
+    //the higher the speed the higher the energy cost
+    //we multiply the energy by speed since the cost of about 1 tile per energy is way too high
+    public static int CalculateEnergy(Vector2 startingPosition, Vector2 endPosition, float speed)
+    { 
+        float distance = Vector2.Distance(startingPosition, endPosition);
+        float energy = distance / UnitUtilities.TILE;
+        return (int)(energy * speed);
+    }
 }

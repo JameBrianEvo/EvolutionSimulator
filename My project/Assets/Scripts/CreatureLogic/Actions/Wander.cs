@@ -12,6 +12,7 @@ public class Wander : IAction
     Grid grid;
     EnergyData energyData;
     MovementData movementData;
+    Vector2 startingPosition;
 
 
     public Wander(EnergyData energyData, MovementData movementData)
@@ -44,6 +45,7 @@ public class Wander : IAction
         wanderTarget = SetRandomPath();
         Vector3Int gridPosition = GameManager.Instance.getGrid().WorldToCell(rb.position);
         rb.velocity = new Vector2(wanderTarget.x - gridPosition.x, wanderTarget.y - gridPosition.y).normalized * movementData.speed;
+        startingPosition = rb.position;
         //Debug.Log(wanderTarget);
         //Debug.Log("Speed: " + movementData.speed);
     }
@@ -51,6 +53,7 @@ public class Wander : IAction
     public void OnExit()
     {
         rb.velocity *= 0;
+        energyData.DecreaseEnergy(ActionUtils.CalculateEnergy(startingPosition, rb.position, movementData.speed));
     }
 
     public void Run()

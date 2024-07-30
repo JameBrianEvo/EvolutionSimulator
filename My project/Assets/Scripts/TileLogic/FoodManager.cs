@@ -20,7 +20,9 @@ public class FoodManager : MonoBehaviour
     [SerializeField]
     Transform foodHolder;
 
-    //prefabs
+    [SerializeField]
+    private GameObject corpse;
+
     [SerializeField] 
     private GameObject food;
 
@@ -76,5 +78,14 @@ public class FoodManager : MonoBehaviour
         new_food.transform.position = GameManager.Instance.getGrid().GetCellCenterWorld(random_position);
         new_food.transform.parent = foodHolder;
         new_food.name = random_position.ToString();
+    }
+
+    public void SpawnCorpse(Vector2 position, int energy)
+    {
+        GameObject newCorpse = Instantiate(corpse);
+        newCorpse.transform.position = position;
+        newCorpse.transform.parent = foodHolder;
+        FoodScript foodScript = corpse.GetComponent<FoodScript>();
+        foodScript.energyStored = energy;
     }
 }

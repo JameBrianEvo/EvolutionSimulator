@@ -6,7 +6,7 @@ public class FoodScript : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private int energyStored;
+    public int energyStored;
 
     [SerializeField]
     private bool plant;
