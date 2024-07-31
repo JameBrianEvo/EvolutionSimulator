@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionsBuilder : MonoBehaviour
+public class ActionsBuilder
 {
     private List<ActionNode> actionNodes;
     private Rigidbody2D rb;
@@ -51,9 +51,18 @@ public class ActionsBuilder : MonoBehaviour
 
     public ActionsBuilder AddBreed()
     {
-        Breed breed = new(data, data.breedData, data.movementData);
+        Breed breed = new(data);
         InitAction(breed, rb, scanner);
         actionNodes.Add(new(breed));
+        return this;
+    }
+
+    public ActionsBuilder AddSleeping()
+    {
+        Debug.Log("Sleeping Added");
+        Sleeping sleeping = new();
+        InitAction(sleeping, rb, scanner);
+        actionNodes.Add(new(sleeping));
         return this;
     }
 

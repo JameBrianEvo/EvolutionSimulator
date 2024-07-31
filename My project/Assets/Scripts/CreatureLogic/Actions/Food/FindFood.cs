@@ -28,16 +28,16 @@ public class FindFood : IAction
         this.foodData = foodData;
         if (!foodData.eatPlants)
         {
-            Debug.Log("MEAT EATER");
+            //Debug.Log("MEAT EATER");
             findFoodStrategy = new FindFoodCarnivore();
         } else if (!foodData.eatMeat)
         {
-            Debug.Log("Plant Eater");
+            //Debug.Log("Plant Eater");
             findFoodStrategy = new FindFoodHerbivore();
         }
         else
         {
-            Debug.Log("Both Eater");
+            //Debug.Log("Both Eater");
             findFoodStrategy = new FindFoodOmnivore();
         }
 

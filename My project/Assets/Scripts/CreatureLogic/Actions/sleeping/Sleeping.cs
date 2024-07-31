@@ -13,7 +13,8 @@ public class Sleeping : IAction
 
     public Sleeping()
     {
-
+        nightSleeper = true;
+        sleepDuration = TimeManager.Instance.secondsPerDay - TimeManager.Instance.daytimeSeconds;
     }
 
     public void SetTraits(bool nightSleeper)

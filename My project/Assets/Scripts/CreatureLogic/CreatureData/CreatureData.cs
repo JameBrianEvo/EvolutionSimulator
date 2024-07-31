@@ -15,7 +15,7 @@ public class CreatureData
 
     public CreatureData(int ID, int energy, float speed, int sightRange, Color color)
     {
-        Debug.Log("Speed During Creation:" + speed);
+        //Debug.Log("Speed During Creation:" + speed);
         movementData = new(speed);
         attributesData = new(ID,sightRange,color);
         energyData = new(energy);

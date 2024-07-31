@@ -100,10 +100,20 @@ public class CreateCreature : MonoBehaviour
                .AddLookForMate()
                .AddBreed()
                .AddWandering()
-               .AddEatFood();
+               .AddEatFood()
+               .AddSleeping();
+
         ActionGraph graph = builder.Build();
+
         ActionLinker linker = new(graph);
-        linker.LinkWandering().LinkLookForMate().LinkFindFood().LinkEatFood().LinkBreed();
+
+        linker.LinkWandering()
+            .LinkLookForMate()
+            .LinkFindFood()
+            .LinkEatFood()
+            .LinkBreed()
+            .LinkSleeping();
+                
 
 
         return builder.Build();

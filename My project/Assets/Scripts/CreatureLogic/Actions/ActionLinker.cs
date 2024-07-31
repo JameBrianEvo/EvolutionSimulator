@@ -13,6 +13,7 @@ public class ActionLinker
     public ActionLinker LinkWandering()
     {
         ActionNode wanderNode = actionNodes.Find(node => node.action is Wander);
+        SafeAddAction(wanderNode, actionNodes.Find(node => node.action is Sleeping));
         SafeAddAction(wanderNode, actionNodes.Find(node => node.action is Breed));
         SafeAddAction(wanderNode, actionNodes.Find(node => node.action is LookForMate));
         SafeAddAction(wanderNode, actionNodes.Find(node => node.action is FindFood));
@@ -48,6 +49,14 @@ public class ActionLinker
         ActionNode breedNode = actionNodes.Find(node => node.action is Breed);
         SafeAddAction(breedNode, actionNodes.Find(node => node.action is Wander));
         return this;
+    }
+
+    public ActionLinker LinkSleeping()
+    {
+        ActionNode sleepNode = actionNodes.Find(node => node.action is Sleeping);
+        SafeAddAction(sleepNode, actionNodes.Find(node =>node.action is Wander));
+        return this;
+
     }
 
     private void SafeAddAction(ActionNode root, ActionNode addition)
