@@ -59,7 +59,6 @@ public class ActionsBuilder
 
     public ActionsBuilder AddSleeping()
     {
-        Debug.Log("Sleeping Added");
         Sleeping sleeping = new();
         InitAction(sleeping, rb, scanner);
         actionNodes.Add(new(sleeping));
@@ -77,5 +76,6 @@ public class ActionsBuilder
     {
         action.SetRigidBody(creature_rb);
         action.SetScanner(scanner);
+        action.AddTraits(data.traitData);
     }
 }

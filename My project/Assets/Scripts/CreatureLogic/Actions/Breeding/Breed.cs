@@ -118,4 +118,9 @@ public class Breed : IAction
     {
         return "Breed";
     }
+
+    public void AddTraits(TraitData data)
+    {
+        
+    }
 }

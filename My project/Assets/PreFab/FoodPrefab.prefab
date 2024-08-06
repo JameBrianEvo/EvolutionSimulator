@@ -133,5 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b387c14ff5bbe942a0a47ab4c562baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyStored: 10
+  energyStored: 15
   plant: 1
