@@ -13,20 +13,20 @@ public class Sleeping : IAction
 
     public Sleeping()
     {
-
+        nightSleeper = true;
+        sleepDuration = TimeManager.Instance.secondsPerDay - TimeManager.Instance.daytimeSeconds;
     }
 
-    public void SetTraits(bool nightSleeper)
+    public void AddTraits(TraitData traitData)
     {
-        this.nightSleeper = nightSleeper;
-        //setting sleep duration according to if it sleeps at night or not
-        if (nightSleeper)
+        switch (traitData.traits[Traits.SLEEPING][(int)SleepTraits.SLEEPPATTERN])
         {
-            sleepDuration = TimeManager.Instance.secondsPerDay - TimeManager.Instance.daytimeSeconds;
-        }
-        else
-        {
-            sleepDuration = TimeManager.Instance.daytimeSeconds;
+            case (int)SleepPattern.DAY:
+                sleepDuration = TimeManager.Instance.secondsPerDay;
+                break;
+            case (int)SleepPattern.NIGHT:
+                sleepDuration = TimeManager.Instance.secondsPerDay - TimeManager.Instance.daytimeSeconds;
+                break;
         }
     }
 

@@ -22,6 +22,10 @@ public class Wander : IAction
         grid = GameManager.Instance.getGrid();
     }
 
+    public void AddTraits(TraitData data)
+    {
+
+    }
     public bool EndCondition()
     {
         //Debug.Log(forceQuit);

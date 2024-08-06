@@ -11,6 +11,7 @@ public interface IAction
     public void OnEnter();
     public void OnExit();
     public void Run();
+    public void AddTraits(TraitData data);
     public string ToString();
 
     public void PrintStatus();

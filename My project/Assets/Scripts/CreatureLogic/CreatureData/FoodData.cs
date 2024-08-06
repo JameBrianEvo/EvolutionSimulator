@@ -5,13 +5,9 @@ using UnityEngine;
 public class FoodData
 {
     public FoodScript targetFood { get; set; }
-    public bool eatPlants { get; }
-    public bool eatMeat { get; }
 
-    public FoodData(bool plant, bool meat)
+    public FoodData()
     {
-        eatPlants = plant;
-        eatMeat = meat;
         targetFood = null;
     }
 }

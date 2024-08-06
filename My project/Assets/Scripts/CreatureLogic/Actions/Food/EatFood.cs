@@ -15,7 +15,10 @@ public class EatFood : IAction
         this.energyData = energyData;
         this.foodData = foodData;
     }
-
+    public void AddTraits(TraitData traitData)
+    {
+        
+    }
     public bool EndCondition()
     {
         return foodData.targetFood == null || finishedEating;

@@ -26,24 +26,24 @@ public class FindFood : IAction
         this.energyData = energyData;
         this.movementData = movementData;
         this.foodData = foodData;
-        if (!foodData.eatPlants)
-        {
-            Debug.Log("MEAT EATER");
-            findFoodStrategy = new FindFoodCarnivore();
-        } else if (!foodData.eatMeat)
-        {
-            Debug.Log("Plant Eater");
-            findFoodStrategy = new FindFoodHerbivore();
-        }
-        else
-        {
-            Debug.Log("Both Eater");
-            findFoodStrategy = new FindFoodOmnivore();
-        }
 
         grid = GameManager.Instance.getGrid();
     }
 
+    public void AddTraits(TraitData traitData)
+    {
+        switch (traitData.traits[Traits.FOOD][(int)FoodTraits.DIET])
+        {
+            case (int)FoodDiet.HERBIVORE:
+                //Debug.Log("Herbivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
+                findFoodStrategy = new FindFoodHerbivore();
+                break;
+            default:
+                //Debug.Log("Omnivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
+                findFoodStrategy = new FindFoodOmnivore();
+                break;
+        }
+    }
     public void SetRigidBody(Rigidbody2D rb)
     {
         this.rb = rb;

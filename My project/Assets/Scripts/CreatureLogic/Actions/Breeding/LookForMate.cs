@@ -93,4 +93,9 @@ public class LookForMate : IAction
     {
         return "LookForMate";
     }
+
+    public void AddTraits(TraitData data)
+    {
+        
+    }
 }

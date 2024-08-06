@@ -36809,7 +36809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 1509355984}
   worldMap: {fileID: 1104449226}
-  timeScale: 1
+  timeScale: 5
   terrainMap: {fileID: 890441168}
 --- !u!114 &1424265769
 MonoBehaviour:
@@ -36823,11 +36823,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5429587594d0a04bbee9f00c0ff4801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingFoodAmount: 10
-  foodSpawnRate: 1
+  StartingFoodAmount: 30
+  foodSpawnRate: 5
   foodMap: {fileID: 503291662}
   worldMap: {fileID: 1104449226}
   foodHolder: {fileID: 208674763}
+  corpse: {fileID: 6196084175196898504, guid: 577c736d2bd044a1a9bf872f3900acde, type: 3}
   food: {fileID: 6196084175196898504, guid: 9218356c47f70a34d85bb9b2695007a8, type: 3}
 --- !u!114 &1424265770
 MonoBehaviour:
@@ -36843,7 +36844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldMap: {fileID: 1104449226}
   creaturePrefab: {fileID: 7492689596350130786, guid: fe1f48aac56d1744081bfc59fce9caaf, type: 3}
-  numOfStartingCreatures: 1
+  numOfStartingCreatures: 20
   creatureHolder: {fileID: 1067818209}
 --- !u!114 &1424265772
 MonoBehaviour:
@@ -36976,7 +36977,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23224926, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -252.00012, y: 245}
+  m_AnchoredPosition: {x: -252.00014, y: 245}
   m_SizeDelta: {x: -59, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1814108232

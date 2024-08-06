@@ -42,6 +42,9 @@ public class CreateCreature : MonoBehaviour
         creature.transform.parent = creatureHolder.transform;
 
         CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE, UnitUtilities.TILE * 5f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+        TraitBuilder traitBuilder = new(data);
+        traitBuilder.BuildFoodTraits().BuildMovementTraits().BuildSleepingTraits();
+        data.SetTraits(traitBuilder.Build());
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
         baseCreature.SetActions(CreateActions(creature.GetComponent<Rigidbody2D>(), data, creature.GetComponentInChildren<RangeScanner>()));
         
@@ -90,6 +93,9 @@ public class CreateCreature : MonoBehaviour
 
         Color color = Color.Lerp(parent1.attributesData.color, parent2.attributesData.color, 1);
         data = new(id, energy, speed, sight_range, color);
+        TraitBuilder traitBuilder = new(data);
+        traitBuilder.BuildFoodTraits().BuildMovementTraits().BuildSleepingTraits();
+        data.SetTraits(traitBuilder.Build());
         return data;
     }
 
@@ -100,17 +106,27 @@ public class CreateCreature : MonoBehaviour
                .AddLookForMate()
                .AddBreed()
                .AddWandering()
-               .AddEatFood();
+               .AddEatFood()
+               .AddSleeping();
+
         ActionGraph graph = builder.Build();
+
         ActionLinker linker = new(graph);
-        linker.LinkWandering().LinkLookForMate().LinkFindFood().LinkEatFood().LinkBreed();
+
+        linker.LinkWandering()
+            .LinkLookForMate()
+            .LinkFindFood()
+            .LinkEatFood()
+            .LinkBreed()
+            .LinkSleeping();
+                
 
 
         return builder.Build();
     }
 
-    private void InitAction(IAction action, Rigidbody2D creature_rb, RangeScanner scanner){
-        action.SetRigidBody(creature_rb);
-        action.SetScanner(scanner);
+    private void CreateTraits()
+    {
+
     }
 }
