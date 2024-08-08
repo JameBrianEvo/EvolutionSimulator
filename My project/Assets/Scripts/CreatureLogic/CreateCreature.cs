@@ -42,7 +42,7 @@ public class CreateCreature : MonoBehaviour
         creature.transform.parent = creatureHolder.transform;
 
         CreatureData data = new(id, 100, Random.Range(UnitUtilities.TILE, UnitUtilities.TILE * 5f), 8, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
-        TraitBuilder traitBuilder = new(data);
+        TraitBuilder traitBuilder = new(data, null, null);
         traitBuilder.BuildFoodTraits().BuildMovementTraits().BuildSleepingTraits();
         data.SetTraits(traitBuilder.Build());
         BaseCreature baseCreature = creature.GetComponent<BaseCreature>();
@@ -93,7 +93,7 @@ public class CreateCreature : MonoBehaviour
 
         Color color = Color.Lerp(parent1.attributesData.color, parent2.attributesData.color, 1);
         data = new(id, energy, speed, sight_range, color);
-        TraitBuilder traitBuilder = new(data);
+        TraitBuilder traitBuilder = new(data, parent1, parent2);
         traitBuilder.BuildFoodTraits().BuildMovementTraits().BuildSleepingTraits();
         data.SetTraits(traitBuilder.Build());
         return data;
