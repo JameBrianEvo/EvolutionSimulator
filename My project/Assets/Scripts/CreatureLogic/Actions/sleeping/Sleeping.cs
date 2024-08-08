@@ -19,12 +19,12 @@ public class Sleeping : IAction
 
     public void AddTraits(TraitData traitData)
     {
-        switch (traitData.traits[Traits.SLEEPING][(int)SleepTraits.SLEEPPATTERN])
+        switch (traitData.traits[Traits.SLEEPING][SleepTraits.SLEEPPATTERN])
         {
-            case (int)SleepPattern.DAY:
+            case SleepTraits.SLEEPPATTERN_DAY & (int)Traits.SUBMASK:
                 sleepDuration = TimeManager.Instance.secondsPerDay;
                 break;
-            case (int)SleepPattern.NIGHT:
+            case SleepTraits.SLEEPPATTERN_NIGHT & (int)Traits.SUBMASK:
                 sleepDuration = TimeManager.Instance.secondsPerDay - TimeManager.Instance.daytimeSeconds;
                 break;
         }

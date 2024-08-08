@@ -32,14 +32,14 @@ public class FindFood : IAction
 
     public void AddTraits(TraitData traitData)
     {
-        switch (traitData.traits[Traits.FOOD][(int)FoodTraits.DIET])
+        switch (traitData.traits[Traits.FOOD][FoodTraits.DIET])
         {
-            case (int)FoodDiet.HERBIVORE:
-                //Debug.Log("Herbivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
+            case FoodTraits.DIET_HERBIVORE & (int) Traits.SUBMASK:
+                Debug.Log("Herbivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
                 findFoodStrategy = new FindFoodHerbivore();
                 break;
             default:
-                //Debug.Log("Omnivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
+                Debug.Log("Omnivore : " + traitData.traits[Traits.FOOD][(int)FoodTraits.DIET]);
                 findFoodStrategy = new FindFoodOmnivore();
                 break;
         }
