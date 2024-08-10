@@ -1,5 +1,1 @@
-Number of creatures: 17
-Average Speed of a creature: 0.4415317
-Average Range of a creature: 8
-Average Energy of a creature: 37.52941
-Most common FOOD 0 is 256
+
