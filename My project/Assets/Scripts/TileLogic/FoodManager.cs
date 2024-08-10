@@ -45,20 +45,6 @@ public class FoodManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if(foodSpawnTimer < 0)
-        {
-            RandomAddFood();
-            foodSpawnTimer = foodSpawnRate;
-        }
-        else
-        {
-            foodSpawnTimer -= Time.deltaTime;
-        }
-    }
-
     private void RandomAddFood()
     {
         int max_tries = 2;
@@ -86,6 +72,6 @@ public class FoodManager : MonoBehaviour
         newCorpse.transform.position = position;
         newCorpse.transform.parent = foodHolder;
         FoodScript foodScript = corpse.GetComponent<FoodScript>();
-        foodScript.energyStored = energy;
+        foodScript.energyPerFood = energy;
     }
 }
