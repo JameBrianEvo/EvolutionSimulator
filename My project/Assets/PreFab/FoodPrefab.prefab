@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2188738884197235370}
   - component: {fileID: 6421334249955992012}
   - component: {fileID: 7758893692998527741}
-  - component: {fileID: 5131727217089461827}
+  - component: {fileID: 5415388475123136899}
   m_Layer: 0
   m_Name: FoodPrefab
   m_TagString: Food
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.08
---- !u!114 &5131727217089461827
+--- !u!114 &5415388475123136899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,8 +130,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6196084175196898504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b387c14ff5bbe942a0a47ab4c562baf, type: 3}
+  m_Script: {fileID: 11500000, guid: d11a76b5c332d43c2bbd4e8c354d7d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyStored: 15
+  numOfFood: 0
+  energyPerFood: 15
   plant: 1
+  regrowRate: 0
