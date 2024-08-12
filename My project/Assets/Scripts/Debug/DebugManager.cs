@@ -11,7 +11,7 @@ public class DebugManager : MonoBehaviour
     [SerializeField]
     private Canvas canvas;
     [SerializeField]
-    private TMP_Text text;
+    private TMP_Text tId, tAge, tEnergy, tSpeed, tSight, tAction, tLocation;
     [SerializeField]
     CameraControl camcon;
     private bool infoOpened = false;
@@ -55,21 +55,12 @@ public class DebugManager : MonoBehaviour
 
     private void SetTextInfo()
     {
-        //energy / max energy
-        //age
-        //sight
-        //speed
-
-        string stats = "";
-        stats += "ID:\t" +creature.data.attributesData.ID + "\n";
-        stats += "Energy:" +creature.data.energyData.currentEnergy + " / " + creature.data.energyData.energy + "\n";
-        stats += "Age:\t" +creature.GetAge() + "\n";
-        stats += "Sight Range:" +creature.data.attributesData.sightRange + "\n";
-        stats += "Speed:"+creature.data.movementData.speed + "\n";
-        stats += "Current Location:" + creature.transform.position + "\n";
-        stats += "Action: " + creature.currentActionNode.action.ToString();
-
-        
-        text.text = stats;
+        tId.text = creature.data.attributesData.ID.ToString();
+        tEnergy.text = creature.data.energyData.currentEnergy.ToString("0,00") + " / " + creature.data.energyData.energy.ToString("0.00");
+        tAge.text = creature.GetAge() + "";
+        tSight.text = creature.data.attributesData.sightRange.ToString();
+        tSpeed.text = creature.data.movementData.speed + "";
+        tLocation.text = creature.transform.position + "";
+        tAction.text = creature.currentActionNode.action.ToString();
     }
 }
